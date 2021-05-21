@@ -39,6 +39,7 @@
     "react",
     "ratings"
   ],
+  "repository": "raymonzhang/react-star-rate",
   "module": "dist/react-star-rate.esm.js",
   "size-limit": [
     {

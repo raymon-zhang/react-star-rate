@@ -37,10 +37,13 @@
   "author": "Raymon Zhang",
   "keywords": [
     "react",
-    "ratings"
+    "reactjs",
+    "rating",
+    "star",
+    "input"
   ],
   "description": "Lightweight, customizable star ratings component for React",
-  "repository": "raymonzhang/react-star-rate",
+  "repository": "raymon-zhang/react-star-rate",
   "module": "dist/react-star-rate.esm.js",
   "size-limit": [
     {

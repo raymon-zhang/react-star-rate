@@ -1,5 +1,7 @@
 <a href="https://raymon-zhang.github.io/react-star-rate">
-    <p align="center"><img height=100 alt="React Star Rate" src="https://github.com/raymon-zhang/react-star-rate/raw/main/assets/header.svg"/></p>
+  <p align="center">
+      <img height=100 alt="React Star Rate" src="https://github.com/raymon-zhang/react-star-rate/raw/main/assets/header.svg"/>
+  </p>
 </a>
 
 <div align="center">

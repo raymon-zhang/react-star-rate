@@ -1,19 +1,22 @@
 <a href="https://raymon-zhang.github.io/react-star-rate">
   <p align="center">
-      <img height=100 alt="React Star Rate" src="https://github.com/raymon-zhang/react-star-rate/raw/main/assets/header.svg"/>
+    <img height=100 alt="React Star Rate" src="https://github.com/raymon-zhang/react-star-rate/raw/main/assets/header.svg"/>
   </p>
 </a>
 
 <div align="center">
-    <img src="https://badgen.net/npm/v/react-star-rate" alt="NPM Version" />
+  <img src="https://badgen.net/npm/v/react-star-rate" alt="NPM Version" />
   <img src="https://badgen.net/bundlephobia/minzip/react-star-rate" alt="minzipped size"/>
-    <img src="https://github.com/raymon-zhang/react-star-rate/workflows/CI/badge.svg" alt="Build Status" />
+  <img src="https://github.com/raymon-zhang/react-star-rate/workflows/CI/badge.svg" alt="Build Status" />
 </div>
 <br />
 <div align="center"><strong>Lightweight, customizable star ratings component for React.</strong></div>
 <br />
 <div align="center">
   <sub>Created by <a href="https://github.com/raymon-zhang">Raymon Zhang</a></sub>
+</div>
+<div align="center">
+  <img alt="React Star Rate" src="https://github.com/raymon-zhang/react-star-rate/raw/main/assets/demo.svg" />
 </div>
 
 <br />
@@ -26,12 +29,16 @@
 
 ## Table of contents
 
+- [Example](#example)
 - [Installation](#installation)
   - [With yarn](#with-yarn)
   - [With NPM](#with-npm)
 - [Getting Started](#getting-started)
 - [Props](#props)
-- [Example](#example)
+
+## Example
+
+You can visit the example here: [https://codesandbox.io/s/react-star-rate-okxlw](https://codesandbox.io/s/react-star-rate-okxlw).
 
 ## Installation
 
@@ -91,7 +98,3 @@ const App = () => {
 | `symbol`          | string   | `"★"`               | The symbol to be displayed                                                         |
 | `tabIndex`        | number   | `0`                 | The tab index of the stars container                                               |
 | `value`           | number   | `-`                 | Controlled value of the component                                                  |
-
-## Example
-
-You can visit the example here: [https://codesandbox.io/s/react-star-rate-okxlw](https://codesandbox.io/s/react-star-rate-okxlw).

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { setup, css } from 'goober';
+import { setup, css, CSSAttribute } from 'goober';
 import { prefix } from 'goober/prefixer';
 
 import Star from './star';
@@ -22,30 +22,37 @@ export interface StarsRatingProps {
   onChange?: (value?: number) => void;
   onFocus?: () => void;
   onHoverChange?: (value?: number) => void;
-  style?: React.CSSProperties;
+  style?: StarsRatingStyles;
   symbol?: React.ReactNode;
   tabIndex?: number;
   value?: number;
 }
+
+type StarsRatingStyles = {
+  style?: CSSAttribute;
+  full?: {
+    first?: CSSAttribute;
+    second?: CSSAttribute;
+    star?: CSSAttribute;
+  };
+  half?: {
+    first?: CSSAttribute;
+    second?: CSSAttribute;
+    star?: CSSAttribute;
+  };
+  zero?: {
+    first?: CSSAttribute;
+    second?: CSSAttribute;
+    star?: CSSAttribute;
+  };
+  hover?: Omit<StarsRatingStyles, 'hover'>;
+};
 
 interface StarsRatingState {
   clearedValue?: number;
   hoverValue?: number;
   value?: number;
 }
-
-const ListContainerStyles = css`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 40px;
-  display: inline-block;
-  vertical-align: middle;
-  font-weight: normal;
-  font-style: normal;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-`;
 
 class StarsRating extends React.Component<StarsRatingProps, StarsRatingState> {
   static defaultProps = {
@@ -197,16 +204,49 @@ class StarsRating extends React.Component<StarsRatingProps, StarsRatingState> {
           onClick={this.onClick}
           onHover={this.onHover}
           reverse={direction === 'rtl'}
+          style={{
+            full: style?.full?.star,
+            half: style?.half?.star,
+            zero: style?.zero?.star,
+          }}
+          styleFull={style?.full}
+          styleFullHover={style?.hover?.full}
+          styleHalf={style?.half}
+          styleHalfHover={style?.hover?.half}
+          styleHover={{
+            full: style?.hover?.full?.star,
+            half: style?.hover?.half?.star,
+            zero: style?.hover?.zero?.star,
+          }}
+          styleZero={style?.zero}
+          styleZeroHover={style?.hover?.zero}
           symbol={symbol}
           value={hoverValue === undefined ? value : hoverValue}
         />
       );
     }
 
+    const ListContainerStyles = css`
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 40px;
+      display: inline-block;
+      vertical-align: middle;
+      font-weight: normal;
+      font-style: normal;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    `;
+
+    const ListContainerHoverStyles = css({
+      '&:hover': style?.hover?.style,
+    });
+
     return (
       <ul
         aria-label="Stars Rating"
-        className={`${classNamePrefix} ${ListContainerStyles} ${
+        className={`${classNamePrefix} ${ListContainerStyles} ${ListContainerHoverStyles} ${
           direction === 'rtl'
             ? `${classNamePrefix}--rtl ${css`
                 direction: rtl;
@@ -222,7 +262,7 @@ class StarsRating extends React.Component<StarsRatingProps, StarsRatingState> {
           this.ratingContainerRef = ref;
         }}
         role="radiogroup"
-        style={style}
+        style={style?.style}
         tabIndex={disabled ? -1 : tabIndex}
       >
         {stars}

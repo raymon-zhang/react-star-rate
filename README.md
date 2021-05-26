@@ -35,10 +35,18 @@
   - [With NPM](#with-npm)
 - [Getting Started](#getting-started)
 - [Props](#props)
+- [Styling](#styling)
+  - [Style Object](#style-object)
+    - [Style Keys](#style-keys)
+  - [With CSS](#with-css)
+    - [Classnames](#classnames)
+- [License](#license)
 
 ## Example
 
-You can visit the example here: [https://codesandbox.io/s/react-star-rate-okxlw](https://codesandbox.io/s/react-star-rate-okxlw).
+You can visit the example here:
+<br />
+[![View on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/react-star-rate-okxlw)
 
 ## Installation
 
@@ -83,7 +91,7 @@ const App = () => {
 | Name              | Type     | Default             | Description                                                                        |
 | ----------------- | -------- | ------------------- | ---------------------------------------------------------------------------------- |
 | `allowClear`      | boolean  | `true`              | Allow the value to be reset when clicked again                                     |
-| `allowHalf`       | boolean  | `true`              | Support half of the star to be selected                                            |
+| `allowHalf`       | boolean  | `true`              | Allow half of the star to be selected                                              |
 | `autoFocus`       | boolean  | -                   | Automatically focus the element                                                    |
 | `classNamePrefix` | string   | `"react-star-rate"` | The components will have classNames with the given prefix                          |
 | `count`           | number   | `5`                 | Number of stars                                                                    |
@@ -94,7 +102,47 @@ const App = () => {
 | `onChange`        | function | `(value) => {}`     | Will be triggered on change of value                                               |
 | `onFocus`         | function | -                   | Will be triggered on focus                                                         |
 | `onHoverChange`   | function | `(value) => {}`     | Will be triggered on hover                                                         |
-| `style`           | object   | `{}`                | Custom styles                                                                      |
+| `style`           | object   | `{}`                | Custom styles. See [styling](#styling)                                             |
 | `symbol`          | string   | `"★"`               | The symbol to be displayed                                                         |
 | `tabIndex`        | number   | `0`                 | The tab index of the stars container                                               |
 | `value`           | number   | `-`                 | Controlled value of the component                                                  |
+
+## Styling
+
+### Style Object
+
+Each component inside the `StarsRating` component is keyed and ships with default styles. You can apply custom styles by accessing the key on the `style` prop.
+
+#### Style Keys
+
+- `style.style` - The main wrapper `ul` element.
+- `style.full` - Styles for when the star is fully active.
+  - `style.full.star` - The wrapper `li` element every star.
+  - `style.full.first` - The first half star, on top.
+  - `style.full.second` - The second full star, in the background.
+- `style.half` - Styles for when the star is half active.
+  - `style.half.star` - The wrapper `li` element every star.
+  - `style.half.first` - The first half star, on top.
+  - `style.half.second` - The second full star, in the background.
+- `style.zero` - Styles for when the star is not active.
+  - `style.zero.star` - The wrapper `li` element every star.
+  - `style.zero.first` - The first half star, on top.
+  - `style.zero.second` - The second full star, in the background.
+- `style.hover` - Styles for when the element is hovered over. You can use access of the keys listed above in the `hover` object.
+
+### With CSS
+
+You can also apply custom styles using CSS Stylesheets. The classnames are determined with the `classNamePrefix` prop (defaults to `"react-star-rate"`).
+
+#### Classnames
+
+- `${classNamePrefix}` - The main `ul` element.
+- `${classNamePrefix}--ltr` | - `${classNamePrefix}--rtl` - If the rating component is from left-to-right or right-to-left respectively.
+- `${classNamePrefix}__star` - The star `li` element.
+- `${classNamePrefix}__star--zero` | `${classNamePrefix}__star--half` | `${classNamePrefix}__star--full` - When the star is inactive, half, or completely full.
+- `${classNamePrefix}__star__first` - The first half star, on top.
+- `${classNamePrefix}__star__second` - The second full star, in the background.
+
+## License
+
+[MIT](https://github.com/raymon-zhang/react-star-rate/blob/main/LICENSE) Licensed. Copyright (c) 2021-present, Raymon Zhang.

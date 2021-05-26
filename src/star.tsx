@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { css } from 'goober';
+import { css, CSSAttribute } from 'goober';
 
 export interface StarProps {
   allowHalf?: boolean;
@@ -11,66 +11,21 @@ export interface StarProps {
   onClick?: (e: React.MouseEvent<HTMLLIElement>, index: number) => void;
   onHover?: (e: React.MouseEvent<HTMLLIElement>, index: number) => void;
   reverse?: boolean;
+  style?: { full?: CSSAttribute; half?: CSSAttribute; zero?: CSSAttribute };
+  styleFull?: { first?: CSSAttribute; second?: CSSAttribute };
+  styleFullHover?: { first?: CSSAttribute; second?: CSSAttribute };
+  styleHalf?: { first?: CSSAttribute; second?: CSSAttribute };
+  styleHalfHover?: { first?: CSSAttribute; second?: CSSAttribute };
+  styleHover?: {
+    full?: CSSAttribute;
+    half?: CSSAttribute;
+    zero?: CSSAttribute;
+  };
+  styleZero?: { first?: CSSAttribute; second?: CSSAttribute };
+  styleZeroHover?: { first?: CSSAttribute; second?: CSSAttribute };
   symbol?: React.ReactNode;
   value?: number;
 }
-
-const FirstStarStyles = css`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  opacity: 0;
-  transition: all 500ms ease;
-`;
-
-const StarStyles = (props: { reverse: boolean }) => css`
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  margin-right: 8px;
-  position: relative;
-  color: #e8eaeb;
-  cursor: pointer;
-  transition: all 500ms ease;
-  ${props.reverse
-    ? `
-    margin-right: 0;
-    margin-left: 8px;
-    float: right;
-
-    .${FirstStarStyles} {
-        right: 0;
-        left: auto;
-    }
-  `
-    : ``}
-`;
-
-const StarActiveStyles = {
-  '': '',
-  half: css`
-    .${FirstStarStyles} {
-      opacity: 1;
-      color: #ffd166;
-    }
-
-    &:hover {
-      .${FirstStarStyles} {
-        color: #ffe3a2;
-      }
-    }
-  `,
-  full: css`
-    color: #ffd166 !important;
-
-    &:hover {
-      color: #ffe3a2;
-    }
-  `,
-};
 
 export class Star extends React.Component<StarProps> {
   starRef?: HTMLLIElement | null;
@@ -95,7 +50,7 @@ export class Star extends React.Component<StarProps> {
       return 'full';
     }
 
-    return '';
+    return 'zero';
   };
 
   getValue = (x: number, reverse: boolean) => {
@@ -136,6 +91,14 @@ export class Star extends React.Component<StarProps> {
       disabled,
       index,
       reverse,
+      style,
+      styleFull,
+      styleFullHover,
+      styleHalf,
+      styleHalfHover,
+      styleHover,
+      styleZero,
+      styleZeroHover,
       symbol,
       value,
     } = this.props;
@@ -143,14 +106,90 @@ export class Star extends React.Component<StarProps> {
     const symbolNode =
       typeof symbol === 'function' ? symbol(this.props) : symbol;
 
+    const starType = this.getStarType();
+
     const classNameMap = {
-      '': '',
+      zero: `${classNamePrefix}__star--zero`,
       half: `${classNamePrefix}__star--half`,
       full: `${classNamePrefix}__star--full`,
     };
-    const className = `${classNamePrefix}__star ${
-      classNameMap[this.getStarType()]
-    }`;
+    const className = `${classNamePrefix}__star ${classNameMap[starType]}`;
+
+    const styleMap = { zero: styleZero, full: styleFull, half: styleHalf };
+    const styleHoverMap = {
+      zero: styleZeroHover,
+      full: styleFullHover,
+      half: styleHalfHover,
+    };
+
+    const FirstStarStyles = css`
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 500ms ease;
+    `;
+
+    const FirstStarHoverStyles = css({
+      '&:hover': styleHoverMap[starType]?.first,
+    });
+
+    const SecondStarHoverStyles = css({
+      '&:hover': styleHoverMap[starType]?.second,
+    });
+
+    const StarActiveStyles = {
+      zero: '',
+      half: css`
+        .${FirstStarStyles} {
+          opacity: 1;
+          color: #ffd166;
+        }
+
+        &:hover {
+          .${FirstStarStyles} {
+            color: #ffe3a2;
+          }
+        }
+      `,
+      full: css`
+        color: #ffd166 !important;
+
+        &:hover {
+          color: #ffe3a2;
+        }
+      `,
+    };
+
+    const StarStyles = css`
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+      margin-right: 8px;
+      position: relative;
+      color: #e8eaeb;
+      cursor: pointer;
+      transition: all 500ms ease;
+      ${reverse
+        ? `
+        margin-right: 0;
+        margin-left: 8px;
+        float: right;
+
+        .${FirstStarStyles} {
+            right: 0;
+            left: auto;
+        }
+      `
+        : ``}
+    `;
+
+    const StarHoverStyles = css({
+      '&:hover': styleHover![starType],
+    });
 
     return (
       <li
@@ -158,24 +197,28 @@ export class Star extends React.Component<StarProps> {
         aria-label={`${index! + 1} out of ${count} stars`}
         aria-posinset={index! + 1}
         aria-setsize={count}
-        className={`${className} ${StarStyles({ reverse: reverse! })} ${
-          StarActiveStyles[this.getStarType()]
-        }`}
+        className={`${className} ${StarStyles} ${StarHoverStyles} ${StarActiveStyles[starType]}`}
         onClick={disabled ? undefined : this.onClick}
         onMouseMove={disabled ? undefined : this.onHover}
         ref={ref => {
           this.starRef = ref;
         }}
         role="radio"
+        style={style![starType]}
         tabIndex={disabled ? -1 : 0}
       >
         <div
-          className={`${classNamePrefix}__star-first ${FirstStarStyles}`}
           aria-hidden="true"
+          className={`${classNamePrefix}__star__first ${FirstStarStyles} ${FirstStarHoverStyles}`}
+          style={styleMap[starType]?.first}
         >
           {symbolNode}
         </div>
-        <div className={`${classNamePrefix}__star-second`} aria-hidden="true">
+        <div
+          aria-hidden="true"
+          className={`${classNamePrefix}__star__second ${SecondStarHoverStyles}`}
+          style={styleMap[starType]?.second}
+        >
           {symbolNode}
         </div>
       </li>
